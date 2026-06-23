@@ -10,7 +10,9 @@
 
 ## 在线使用
 
-如果项目已部署到 Netlify / GitHub Pages，可以直接打开网页使用。
+GitHub Pages：
+
+https://kirpearlzayneowo-afk.github.io/drawing-recovery-calendar/
 
 如果是本地使用，下载 `index.html` 后双击打开即可。
 
@@ -21,8 +23,22 @@
 - 本月打卡数统计
 - 总打卡数统计
 - 多套主题颜色
+  - 樱花猫猫
+  - 奶油小狐
+  - 薄荷湖
+  - 月光蓝
+  - 星莓夜
 - 自定义 User / Char 称呼
-- 自定义监督员 emoji 和名字
+- 自定义监督员：
+  - emoji
+  - 名字
+  - 完成标记
+  - 完成语录
+- 不同监督员可以有不同完成标记，例如：
+  - 小狐狸：🐾
+  - 小鱼：🫧
+  - 小企鹅：👣
+- 完成提示不再固定为“盖爪印”，可以根据监督员自定义
 - 完成度记录：
   - 还没开始
   - 只是打开
@@ -30,6 +46,7 @@
   - 完成了简单涂鸦
   - 细化了作品
   - 完成了大作！
+- 支持自定义完成度
 - 今日类型多选：
   - 爽画草稿
   - 练习
@@ -41,13 +58,21 @@
   - 同人
   - 设计
   - 复健
+- 支持自定义今日类型
 - “今天实际画了什么”自由输入
 - 心情标签
 - 自定义心情
+- “给 Char 的小礼物”模块
+  - 可选额外练习
+  - 不是补卡
+  - 不是补签
+  - 不是补债
+  - 不是惩罚
 - 奖励请求
 - 备注
 - 一键复制今日汇报
 - JSON 备份 / 导入
+- 底部显示版本号：`Version v4.2 · local-first`
 
 ## 隐私说明
 
@@ -73,17 +98,24 @@
    - 今日类型
    - 今天实际画了什么
    - 心情
+   - 给 Char 的小礼物
    - 想要的奖励
    - 备注
 7. 点击“复制今日汇报”，把生成的文字发给陪伴者 / 监督者。
 8. 定期点击“备份记录 JSON”保存数据。
 
-## 示例汇报txt
-Char，User今天画画打卡完成🐾
-6月23日｜完成度：只是打开
-类型：爽画草稿
+## 示例汇报
+
+```txt
+Char，User今天画画打卡完成🫧
+6月24日｜完成度：只是打开
+类型：复健
+内容：打开 CSP，画了几笔
 心情：平稳
-想要：小青蛙夸夸
+给Char的小礼物：多画 5 分钟
+想要：小鱼夸夸
+```
+
 ## 适合谁
 
 这个小工具适合：
@@ -97,8 +129,11 @@ Char，User今天画画打卡完成🐾
 ## 开发方式
 
 本项目目前是单文件 HTML：
-txt
+
+```txt
 index.html
+```
+
 包含：
 
 - HTML
@@ -111,13 +146,74 @@ index.html
 ## 数据结构
 
 当前版本使用：
-js
-localStorage key: animalDrawingCalendar.v3
+
+```js
+localStorage key: animalDrawingCalendar.v4_2
+```
+
+旧版本兼容读取：
+
+```js
+animalDrawingCalendar.v4_1
+animalDrawingCalendar.v4
+animalDrawingCalendar.v3
+foxDrawingCalendar.v2
+foxDrawingCalendar.v1
+```
+
 大致结构：
-json
+
+```json
 {
-"version": 3,"settings": {"userName": "User","charName": "Char","theme": "berry","animalIcon": "🦊","animals": [],"moods": []},"days": {"2026-06-23": {"level": 1,"types": ["爽画草稿"],"customWork": "","mood": "平稳","reward": "小青蛙夸夸","note": "","updatedAt": "..."}}
+  "version": 4.2,
+  "settings": {
+    "userName": "User",
+    "charName": "Char",
+    "theme": "sakura",
+    "animalIcon": "🦊",
+    "animals": [
+      {
+        "icon": "🐟",
+        "name": "小鱼",
+        "mark": "🫧",
+        "doneText": "小鱼吐了一个泡泡。"
+      }
+    ],
+    "levels": [
+      {
+        "value": 1,
+        "label": "只是打开",
+        "done": true
+      }
+    ],
+    "workTypes": ["练习", "复健"],
+    "moods": ["平稳", "开心"]
+  },
+  "days": {
+    "2026-06-24": {
+      "level": 1,
+      "types": ["复健"],
+      "customWork": "打开 CSP，画了几笔",
+      "mood": "平稳",
+      "gift": "多画 5 分钟",
+      "customGift": "",
+      "reward": "小鱼夸夸",
+      "note": "",
+      "updatedAt": "..."
+    }
+  }
 }
+```
+
+## 设计原则
+
+- 记录的是重新靠近创作，而不是产量。
+- “只是打开”也算完成。
+- 错过一天不是失败。
+- “给 Char 的小礼物”不是惩罚。
+- 用户不需要为“今天不需要”提供理由。
+- 数据默认保存在本地，不主动上传。
+
 ## License
 
 MIT
